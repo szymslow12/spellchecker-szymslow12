@@ -3,6 +3,8 @@ package com.codecool.spellchecker.models;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+
+import com.codecool.spellchecker.models.hashTable.HashTable;
 import com.codecool.spellchecker.models.hashers.*;
 
 public class WordList {
