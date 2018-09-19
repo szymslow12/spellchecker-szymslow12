@@ -26,7 +26,7 @@ public class HashTable
    *        hasher    Object that creates the hash code for a string
    * @see StringHasher
    */
-	private LinkedList<KeyValue>[] table;
+	private LinkedList<String>[] table;
 	private StringHasher hasher;
 
 	public HashTable(int tableSize, StringHasher hasher)
@@ -47,14 +47,15 @@ public class HashTable
 	    if (s == null) {
 	        return;
         }
+        s = s.toUpperCase();
         int hashCode = Math.abs(hasher.hash(s) % table.length);
-        KeyValue keyValue = new KeyValue(s);
-        LinkedList<KeyValue> tableValues = table[hashCode];
+        LinkedList<String> tableValues = table[hashCode];
         if (tableValues == null) {
             tableValues = new LinkedList<>();
             table[hashCode] = tableValues;
         }
-        tableValues.add(keyValue);
+        tableValues.add(s);
+        System.out.println(tableValues.get(tableValues.size() - 1));
 	}
 	
 
@@ -66,8 +67,12 @@ public class HashTable
   */
 	public boolean lookup(String s)
 	{
+	    if (s == null) {
+	        return false;
+        }
+	    s = s.toUpperCase();
 	    int hashCode = Math.abs(hasher.hash(s) % table.length);
-	    LinkedList<KeyValue> tableValues = table[hashCode];
+	    LinkedList<String> tableValues = table[hashCode];
 	    if (tableValues == null) {
 	        return false;
         }
@@ -75,9 +80,9 @@ public class HashTable
 	}
 
 
-	private boolean containValue(String key, LinkedList<KeyValue> tableValues) {
-	    for (KeyValue keyValue: tableValues) {
-	        if (key == keyValue.getValue()) {
+	private boolean containValue(String key, LinkedList<String> tableValues) {
+	    for (String value: tableValues) {
+	        if (key.equals(value)) {
                 return true;
             }
         }
@@ -92,14 +97,18 @@ public class HashTable
   */
 	public void remove(String s)
 	{
+	    if (s == null) {
+	        return;
+        }
+        s = s.toUpperCase();
         int hashCode = Math.abs(hasher.hash(s) % table.length);
-        LinkedList<KeyValue> tableValues = table[hashCode];
+        LinkedList<String> tableValues = table[hashCode];
         if (tableValues == null) {
             return;
         }
-        for (KeyValue keyValue: tableValues) {
-            if (keyValue.getValue() == s) {
-                tableValues.remove(keyValue);
+        for (String value: tableValues) {
+            if (value.equals(s)) {
+                tableValues.remove(value);
             }
         }
 	}
