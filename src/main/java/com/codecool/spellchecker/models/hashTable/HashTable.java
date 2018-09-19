@@ -3,7 +3,7 @@ package com.codecool.spellchecker.models.hashTable;
 
 import com.codecool.spellchecker.models.hashers.StringHasher;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,12 +26,12 @@ public class HashTable
    *        hasher    Object that creates the hash code for a string
    * @see StringHasher
    */
-	private LinkedList<String>[] table;
+	private ArrayList<String>[] table;
 	private StringHasher hasher;
 
 	public HashTable(int tableSize, StringHasher hasher)
 	{
-        table = new LinkedList[tableSize];
+        table = new ArrayList[tableSize];
         this.hasher = hasher;
 	}
 
@@ -49,13 +49,12 @@ public class HashTable
         }
         s = s.toUpperCase();
         int hashCode = Math.abs(hasher.hash(s) % table.length);
-        LinkedList<String> tableValues = table[hashCode];
+        ArrayList<String> tableValues = table[hashCode];
         if (tableValues == null) {
-            tableValues = new LinkedList<>();
+            tableValues = new ArrayList<>();
             table[hashCode] = tableValues;
         }
         tableValues.add(s);
-        System.out.println(tableValues.get(tableValues.size() - 1));
 	}
 	
 
@@ -72,7 +71,7 @@ public class HashTable
         }
 	    s = s.toUpperCase();
 	    int hashCode = Math.abs(hasher.hash(s) % table.length);
-	    LinkedList<String> tableValues = table[hashCode];
+	    ArrayList<String> tableValues = table[hashCode];
 	    if (tableValues == null) {
 	        return false;
         }
@@ -80,7 +79,7 @@ public class HashTable
 	}
 
 
-	private boolean containValue(String key, LinkedList<String> tableValues) {
+	private boolean containValue(String key, ArrayList<String> tableValues) {
 	    for (String value: tableValues) {
 	        if (key.equals(value)) {
                 return true;
@@ -102,7 +101,7 @@ public class HashTable
         }
         s = s.toUpperCase();
         int hashCode = Math.abs(hasher.hash(s) % table.length);
-        LinkedList<String> tableValues = table[hashCode];
+        ArrayList<String> tableValues = table[hashCode];
         if (tableValues == null) {
             return;
         }
