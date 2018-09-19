@@ -21,15 +21,40 @@ class HashTableTest {
     @BeforeEach
     public void setup() {
         hashTable = new HashTable(4, stringHasher);
-        hashTable.add("HashTable");
-        hashTable.add(" ");
-        hashTable.add("test");
-        hashTable.add("!");
-        when(stringHasher.hash(any(String.class))).thenReturn(0);
+        when(stringHasher.hash(any(String.class)))
+                .thenReturn(0)
+                .thenReturn(1)
+                .thenReturn(2)
+                .thenReturn(4);
     }
 
     @Test
-    void shouldAdd() {
-        hashTable.lookup()
+    void shouldAddString() {
+        hashTable.add("string");
+
+        int expected = 1;
+        int actual = hashTable.getTotalItemsNumber();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldAddMoreStrings() {
+        hashTable.add("string0");
+        hashTable.add("string1");
+        hashTable.add("string2");
+        hashTable.add("string3");
+
+        int expected = 4;
+        int actual = hashTable.getTotalItemsNumber();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldLookupExistWord() {
+        hashTable.add("word");
+
+        assertTrue(hashTable.lookup("word"));
     }
 }
