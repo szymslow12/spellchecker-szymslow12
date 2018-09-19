@@ -60,19 +60,26 @@ public class WordChecker
    */
 	public ArrayList getSuggestions(String word)
 	{
-        ArrayList suggestions = new ArrayList();
-        suggestions.addAll(charAppended(word));
-        suggestions.addAll(charMissing(word));
-        suggestions.addAll(charsSwapped(word));
-        suggestions.addAll(charInserted(word));
-        suggestions.addAll(charReplace(word));
+        ArrayList<String> suggestions = new ArrayList<>();
+        suggestions.addAll(findSuggestion(word));
         suggestions.addAll(charDelete(word));
 	    return removeDuplicates(suggestions);
 	}
 
 
+	private ArrayList<String> findSuggestion(String word) {
+	    ArrayList<String> suggestions = new ArrayList<>();
+        suggestions.addAll(charAppended(word));
+        suggestions.addAll(charMissing(word));
+        suggestions.addAll(charsSwapped(word));
+        suggestions.addAll(charInserted(word));
+        suggestions.addAll(charReplace(word));
+        return suggestions;
+    }
+
+
 	private ArrayList removeDuplicates(ArrayList list) {
-	    ArrayList toReturn = new ArrayList();
+        ArrayList<String> toReturn = new ArrayList<>();
 	    for (Object object: list) {
 	        String word = (String) object;
 	        if (!toReturn.contains(word)) {
@@ -83,8 +90,8 @@ public class WordChecker
     }
 
 
-	private ArrayList charAppended(String word) {
-        ArrayList toReturn = new ArrayList();
+	private ArrayList<String> charAppended(String word) {
+        ArrayList<String> toReturn = new ArrayList<>();
         for (char character: alphabet.toCharArray()) {
             String atFront = character + word;
             String atBack = word + character;
@@ -99,8 +106,8 @@ public class WordChecker
     }
 
 
-    private ArrayList charInserted(String word) {
-	    ArrayList toReturn = new ArrayList();
+    private ArrayList<String> charInserted(String word) {
+        ArrayList<String> toReturn = new ArrayList<>();
 
 	    for (int i = 0; i < word.length(); i++) {
 	        for (char character: alphabet.toCharArray()) {
@@ -115,8 +122,8 @@ public class WordChecker
     }
 
 
-    private ArrayList charReplace(String word) {
-        ArrayList toReturn = new ArrayList();
+    private ArrayList<String> charReplace(String word) {
+        ArrayList<String> toReturn = new ArrayList<>();
 
         for (int i = 0; i < word.length(); i++) {
             for (char character: alphabet.toCharArray()) {
@@ -131,18 +138,14 @@ public class WordChecker
     }
 
 
-    private ArrayList charDelete(String word) {
-	    ArrayList toReturn = new ArrayList();
+    private ArrayList<String> charDelete(String word) {
+        ArrayList<String> toReturn = new ArrayList<>();
 
 	    for (int i = 0; i < word.length() - 1; i++) {
 	        String stringWithDeletedChar = word.substring(0, i) + word.substring(i + 1);
 	        if (wordExists(stringWithDeletedChar)) {
 	            toReturn.add(stringWithDeletedChar);
-                toReturn.addAll(charAppended(stringWithDeletedChar));
-                toReturn.addAll(charMissing(stringWithDeletedChar));
-                toReturn.addAll(charsSwapped(stringWithDeletedChar));
-                toReturn.addAll(charInserted(stringWithDeletedChar));
-                toReturn.addAll(charReplace(stringWithDeletedChar));
+                toReturn.addAll(findSuggestion(stringWithDeletedChar));
 
             }
         }
@@ -150,8 +153,8 @@ public class WordChecker
     }
 
 
-    private ArrayList charMissing(String word) {
-	    ArrayList toReturn = new ArrayList();
+    private ArrayList<String> charMissing(String word) {
+        ArrayList<String> toReturn = new ArrayList<>();
 	    int wordLen = word.length() - 1;
 
 	    if (wordExists(word.substring(1))) {
@@ -172,8 +175,8 @@ public class WordChecker
     }
 
 
-    private ArrayList charsSwapped(String input) {
-        ArrayList toReturn = new ArrayList();
+    private ArrayList<String> charsSwapped(String input) {
+        ArrayList<String> toReturn = new ArrayList<>();
 
         for (int i = 0; i < input.length() - 1; i++) {
             String working = input.substring(0, i);
