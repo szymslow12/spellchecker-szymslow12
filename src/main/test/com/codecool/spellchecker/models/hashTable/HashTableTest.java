@@ -52,9 +52,14 @@ class HashTableTest {
     }
 
     @Test
-    void shouldLookupExistWord() {
+    void shouldLookupReturnTrueWhenWordExists() {
         hashTable.add("word");
 
         assertTrue(hashTable.lookup("word"));
+    }
+
+    @Test
+    void shouldLookupReturnFalseWhenWordNotExists() {
+
     }
 }
