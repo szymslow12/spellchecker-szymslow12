@@ -74,6 +74,8 @@ class HashTableTest {
         assertFalse(hashTable.lookup("not exists"));
     }
 
+
+
     @Test
     void shouldRemoveExistWord() {
         hashTable.add("word0");
@@ -81,6 +83,18 @@ class HashTableTest {
         hashTable.remove("word0");
 
         int expected = 0;
+        int actual = hashTable.getTotalItemsNumber();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldNotRemoveNull() {
+        hashTable.add("string");
+
+        hashTable.remove(null);
+
+        int expected = 1;
         int actual = hashTable.getTotalItemsNumber();
 
         assertEquals(expected, actual);
