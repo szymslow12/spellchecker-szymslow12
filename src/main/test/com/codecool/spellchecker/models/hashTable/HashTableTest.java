@@ -4,6 +4,7 @@ import com.codecool.spellchecker.models.hashers.StringHasher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Random;
 
@@ -20,12 +21,9 @@ class HashTableTest {
 
     @BeforeEach
     public void setup() {
+        MockitoAnnotations.initMocks(this);
         hashTable = new HashTable(4, stringHasher);
-        when(stringHasher.hash(any(String.class)))
-                .thenReturn(0)
-                .thenReturn(1)
-                .thenReturn(2)
-                .thenReturn(4);
+        when(stringHasher.hash(any(String.class))).thenReturn(0);
     }
 
     @Test
@@ -52,7 +50,18 @@ class HashTableTest {
     }
 
     @Test
+    void shouldNotAddNull() {
+        hashTable.add(null);
+
+        int expected = 0;
+        int actual = hashTable.getTotalItemsNumber();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void shouldLookupReturnTrueWhenWordExists() {
+
         hashTable.add("word");
 
         assertTrue(hashTable.lookup("word"));
@@ -60,6 +69,20 @@ class HashTableTest {
 
     @Test
     void shouldLookupReturnFalseWhenWordNotExists() {
+        hashTable.add("word");
 
+        assertFalse(hashTable.lookup("not exists"));
+    }
+
+    @Test
+    void shouldRemoveExistWord() {
+        hashTable.add("word0");
+
+        hashTable.remove("word0");
+
+        int expected = 0;
+        int actual = hashTable.getTotalItemsNumber();
+
+        assertEquals(expected, actual);
     }
 }
