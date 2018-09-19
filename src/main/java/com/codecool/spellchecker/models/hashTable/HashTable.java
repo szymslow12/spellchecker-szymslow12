@@ -102,10 +102,13 @@ public class HashTable
         s = s.toUpperCase();
         int hashCode = Math.abs(hasher.hash(s) % table.length);
         ArrayList<String> tableValues = table[hashCode];
+        ArrayList<String> valuesCopy = new ArrayList<>();
         if (tableValues == null) {
             return;
         }
-        for (String value: tableValues) {
+
+        valuesCopy.addAll(tableValues);
+        for (String value: valuesCopy) {
             if (value.equals(s)) {
                 tableValues.remove(value);
             }
