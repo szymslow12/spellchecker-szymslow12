@@ -2,6 +2,7 @@ package com.codecool.spellchecker.models.checkers;
 
 import com.codecool.spellchecker.models.WordList;
 import java.util.ArrayList;
+
 /**
  *
  * ICS 23 Summer 2004
@@ -27,9 +28,12 @@ public class WordChecker
    * @param wordList Initial word list to check against.
    * @see WordList
    */
+	private String alphabet ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private WordList wordList;
+
 	public WordChecker(WordList wordList)
 	{
-
+        this.wordList = wordList;
 	}
 	
 
@@ -42,7 +46,7 @@ public class WordChecker
    */
 	public boolean wordExists(String word)
 	{
-		return false;
+	    return wordList.lookup(word);
 	}
 
 
@@ -56,6 +60,90 @@ public class WordChecker
    */
 	public ArrayList getSuggestions(String word)
 	{
-		return new ArrayList();
+        ArrayList suggestions = new ArrayList();
+        suggestions.addAll(charAppended(word));
+        suggestions.addAll(charMissing(word));
+        suggestions.addAll(charsSwapped(word));
+        suggestions.addAll(charInserted(word));
+//        System.out.println(suggestions);
+	    return suggestions;
 	}
+
+
+	private ArrayList charAppended(String word) {
+        ArrayList toReturn = new ArrayList();
+        for (char character: alphabet.toCharArray()) {
+            String atFront = character + word;
+            String atBack = word + character;
+            if (wordExists(atFront)) {
+                System.out.println("Added suggesstion!");
+                toReturn.add(atFront);
+            }
+            if (wordExists(atBack)) {
+                System.out.println("Added suggesstion!");
+                toReturn.add(atBack);
+            }
+        }
+        return toReturn;
+    }
+
+    private ArrayList charInserted(String word) {
+	    ArrayList toReturn = new ArrayList();
+
+	    for (int i = 0; i < word.length(); i++) {
+	        for (char character: alphabet.toCharArray()) {
+                String inserted = word.substring(0, i) + character + word.substring(i);
+                if (wordExists(inserted)) {
+                    toReturn.add(inserted);
+                }
+            }
+        }
+        return toReturn;
+    }
+
+
+    private ArrayList charReplace(String word) {
+
+    }
+
+
+    private ArrayList charMissing(String word) {
+	    ArrayList toReturn = new ArrayList();
+	    int wordLen = word.length() - 1;
+
+	    if (wordExists(word.substring(1))) {
+            System.out.println("Added suggesstion!");
+	        toReturn.add(word.substring(1));
+        }
+        for (int i = 1; i < wordLen; i++) {
+            String newWord = word.substring(0, i);
+            newWord = newWord.concat(word.substring(i + 1));
+            if (wordExists(newWord)) {
+                System.out.println("Added suggesstion!");
+                toReturn.add(newWord);
+            }
+        }
+        if (wordExists(word.substring(0, wordLen))) {
+            System.out.println("Added suggesstion!");
+            toReturn.add(word.substring(0, wordLen));
+        }
+        return toReturn;
+    }
+
+
+    private ArrayList charsSwapped(String input) {
+        ArrayList toReturn = new ArrayList();
+
+        for (int i = 0; i < input.length() - 1; i++) {
+            String working = input.substring(0, i);// System.out.println("    0:" + working);
+            working = working + input.charAt(i + 1);  //System.out.println("    1:" + working);
+            working = working + input.charAt(i); //System.out.println("    2:" + working);
+            working = working.concat(input.substring((i + 2)));//System.out.println("    FIN:" + working);
+            if (wordExists(working)) {
+                System.out.println("Added suggesstion!");
+                toReturn.add(working);
+            }
+        }
+        return toReturn;
+    }
 }
