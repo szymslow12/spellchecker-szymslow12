@@ -116,7 +116,9 @@ public class HashTable
 	public int getTotalItemsNumber() {
 	    int itemCount = 0;
 	    for (ArrayList items: table) {
-	        itemCount += items.size();
+	        if (items != null) {
+                itemCount += items.size();
+            }
         }
         return itemCount;
     }
