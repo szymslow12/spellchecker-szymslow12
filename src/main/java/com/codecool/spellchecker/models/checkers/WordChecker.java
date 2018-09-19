@@ -82,6 +82,7 @@ public class WordChecker
         return toReturn;
     }
 
+
 	private ArrayList charAppended(String word) {
         ArrayList toReturn = new ArrayList();
         for (char character: alphabet.toCharArray()) {
@@ -97,6 +98,7 @@ public class WordChecker
         return toReturn;
     }
 
+
     private ArrayList charInserted(String word) {
 	    ArrayList toReturn = new ArrayList();
 
@@ -105,6 +107,7 @@ public class WordChecker
                 String inserted = word.substring(0, i) + character + word.substring(i);
                 if (wordExists(inserted)) {
                     toReturn.add(inserted);
+
                 }
             }
         }
@@ -120,6 +123,7 @@ public class WordChecker
                 String replacedString = word.replace(word.charAt(i), character);
                 if (wordExists(replacedString)) {
                     toReturn.add(replacedString);
+
                 }
             }
         }
@@ -134,9 +138,15 @@ public class WordChecker
 	        String stringWithDeletedChar = word.substring(0, i) + word.substring(i + 1);
 	        if (wordExists(stringWithDeletedChar)) {
 	            toReturn.add(stringWithDeletedChar);
+                toReturn.addAll(charAppended(stringWithDeletedChar));
+                toReturn.addAll(charMissing(stringWithDeletedChar));
+                toReturn.addAll(charsSwapped(stringWithDeletedChar));
+                toReturn.addAll(charInserted(stringWithDeletedChar));
+                toReturn.addAll(charReplace(stringWithDeletedChar));
+
             }
         }
-        return toReturn;
+         return toReturn;
     }
 
 
@@ -152,6 +162,7 @@ public class WordChecker
             newWord = newWord.concat(word.substring(i + 1));
             if (wordExists(newWord)) {
                 toReturn.add(newWord);
+
             }
         }
         if (wordExists(word.substring(0, wordLen))) {
