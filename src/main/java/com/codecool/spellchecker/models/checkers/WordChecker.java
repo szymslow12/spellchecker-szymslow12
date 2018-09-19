@@ -65,6 +65,7 @@ public class WordChecker
         suggestions.addAll(charMissing(word));
         suggestions.addAll(charsSwapped(word));
         suggestions.addAll(charInserted(word));
+        suggestions.addAll(charReplace(word));
 //        System.out.println(suggestions);
 	    return suggestions;
 	}
@@ -103,7 +104,17 @@ public class WordChecker
 
 
     private ArrayList charReplace(String word) {
+        ArrayList toReturn = new ArrayList();
 
+        for (int i = 0; i < word.length(); i++) {
+            for (char character: alphabet.toCharArray()) {
+                String replacedString = word.replace(word.charAt(i), character);
+                if (wordExists(replacedString)) {
+                    toReturn.add(replacedString);
+                }
+            }
+        }
+        return toReturn;
     }
 
 
