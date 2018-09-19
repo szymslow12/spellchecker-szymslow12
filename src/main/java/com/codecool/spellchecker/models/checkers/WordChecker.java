@@ -66,9 +66,21 @@ public class WordChecker
         suggestions.addAll(charsSwapped(word));
         suggestions.addAll(charInserted(word));
         suggestions.addAll(charReplace(word));
-	    return suggestions;
+        suggestions.addAll(charDelete(word));
+	    return removeDuplicates(suggestions);
 	}
 
+
+	private ArrayList removeDuplicates(ArrayList list) {
+	    ArrayList toReturn = new ArrayList();
+	    for (Object object: list) {
+	        String word = (String) object;
+	        if (!toReturn.contains(word)) {
+	            toReturn.add(word);
+            }
+        }
+        return toReturn;
+    }
 
 	private ArrayList charAppended(String word) {
         ArrayList toReturn = new ArrayList();
@@ -109,6 +121,19 @@ public class WordChecker
                 if (wordExists(replacedString)) {
                     toReturn.add(replacedString);
                 }
+            }
+        }
+        return toReturn;
+    }
+
+
+    private ArrayList charDelete(String word) {
+	    ArrayList toReturn = new ArrayList();
+
+	    for (int i = 0; i < word.length() - 1; i++) {
+	        String stringWithDeletedChar = word.substring(0, i) + word.substring(i + 1);
+	        if (wordExists(stringWithDeletedChar)) {
+	            toReturn.add(stringWithDeletedChar);
             }
         }
         return toReturn;
