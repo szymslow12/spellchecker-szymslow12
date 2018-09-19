@@ -66,7 +66,6 @@ public class WordChecker
         suggestions.addAll(charsSwapped(word));
         suggestions.addAll(charInserted(word));
         suggestions.addAll(charReplace(word));
-//        System.out.println(suggestions);
 	    return suggestions;
 	}
 
@@ -77,11 +76,9 @@ public class WordChecker
             String atFront = character + word;
             String atBack = word + character;
             if (wordExists(atFront)) {
-                System.out.println("Added suggesstion!");
                 toReturn.add(atFront);
             }
             if (wordExists(atBack)) {
-                System.out.println("Added suggesstion!");
                 toReturn.add(atBack);
             }
         }
@@ -123,19 +120,16 @@ public class WordChecker
 	    int wordLen = word.length() - 1;
 
 	    if (wordExists(word.substring(1))) {
-            System.out.println("Added suggesstion!");
 	        toReturn.add(word.substring(1));
         }
         for (int i = 1; i < wordLen; i++) {
             String newWord = word.substring(0, i);
             newWord = newWord.concat(word.substring(i + 1));
             if (wordExists(newWord)) {
-                System.out.println("Added suggesstion!");
                 toReturn.add(newWord);
             }
         }
         if (wordExists(word.substring(0, wordLen))) {
-            System.out.println("Added suggesstion!");
             toReturn.add(word.substring(0, wordLen));
         }
         return toReturn;
@@ -146,12 +140,11 @@ public class WordChecker
         ArrayList toReturn = new ArrayList();
 
         for (int i = 0; i < input.length() - 1; i++) {
-            String working = input.substring(0, i);// System.out.println("    0:" + working);
-            working = working + input.charAt(i + 1);  //System.out.println("    1:" + working);
-            working = working + input.charAt(i); //System.out.println("    2:" + working);
-            working = working.concat(input.substring((i + 2)));//System.out.println("    FIN:" + working);
+            String working = input.substring(0, i);
+            working = working + input.charAt(i + 1);
+            working = working + input.charAt(i);
+            working = working.concat(input.substring((i + 2)));
             if (wordExists(working)) {
-                System.out.println("Added suggesstion!");
                 toReturn.add(working);
             }
         }
